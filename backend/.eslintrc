@@ -1,12 +1,14 @@
 {
-  "parser": "babel-eslint",
-  "extends": "standard",
+  "extends": "airbnb/base",
   "env": {
+    "es6": true,
     "node": true,
     "mocha": true
   },
   "rules": {
     "semi": ["error", "always"],
-    "comma-dangle": ["error", "always-multiline"]
+    "comma-dangle": ["error", "always-multiline"],
+    "max-len": [2, {"code": 200}],
+    "array-callback-return": "off"
   }
 }

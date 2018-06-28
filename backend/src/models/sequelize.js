@@ -1,7 +1,7 @@
-var Sequelize = require('sequelize');
-var config = require('../config');
+const Sequelize = require('sequelize');
+const config = require('../config');
 
-var sequelize = new Sequelize(config.DATABASE_URL, {
+const sequelize = new Sequelize(config.DATABASE_URL, {
   logging: false,
 });
 

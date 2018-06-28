@@ -2,32 +2,32 @@ const database = require('../database');
 
 const LIMIT = require('../config').DEFAULT_LIMIT;
 
-const getChats = exports.getChats = async (params = {}) => {
-  let query = params.query || {};
-  let limit = query.limit || query.max || LIMIT;
-  let offset = query.offset || 0;
+const getChats = async (params = {}) => {
+  const query = params.query || {};
+  const limit = query.limit || query.max || LIMIT;
+  const offset = query.offset || 0;
 
-  let options = {};
+  const options = {};
 
-  let result = await database.Chat.findAndCountAll(options);
+  const result = await database.Chat.findAndCountAll(options);
 
   return {
     results: await Promise.all(result.rows.map(chat => chat.toJSON())),
     metadata: {
-      resultset: {
-        count: result.count,
-        offset: offset,
-        limit: limit,
-      },
+      resultset: { count: result.count, offset, limit },
     },
   };
 };
 
-const createChat = exports.createChat = async (params) => {
+const createChat = async (params) => {
   const chat = await database.Chat.create({ room: params.room, nick: params.nick, summary: params.summary });
 
   return { chat };
 };
+
+exports.getChats = getChats;
+
+exports.createChat = createChat;
 
 exports.list = async (ctx) => {
   const result = await getChats(ctx.request);

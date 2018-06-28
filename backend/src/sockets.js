@@ -23,7 +23,7 @@ exports.init = (app, io) => {
     });
 
     socket.on('create chat', async (params) => {
-      const { chat } = await chats.createChat(params);
+      await chats.createChat(params);
 
       socket.emit('chat created');
 

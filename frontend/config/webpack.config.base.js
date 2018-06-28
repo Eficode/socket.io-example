@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
@@ -18,12 +17,13 @@ module.exports = {
       'node_modules',
     ],
   },
-  plugins: [
-    new webpack.optimize.CommonsChunkPlugin({
+  optimization: {
+    splitChunks: {
       name: 'vendor',
       filename: '[name].[hash:8].js',
-      minChunks: ({ resource }) => /node_modules/.test(resource),
-    }),
+    },
+  },
+  plugins: [
     new HtmlWebpackPlugin({
       template: 'src/public/index.html',
       filename: 'index.html',
@@ -34,13 +34,19 @@ module.exports = {
     new ExtractTextPlugin('[name].[hash:8].css'),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         test: /\.(js|jsx)$/,
         include: path.resolve(__dirname, '../src'),
         loader: 'babel-loader',
         query: {
-          presets: ['react', 'es2016', 'stage-2'],
+          presets: [
+            '@babel/react',
+            ['@babel/env', { targets: { browsers: ['last 2 versions'] }, modules: false }],
+          ],
+          plugins: [
+            '@babel/plugin-proposal-class-properties',
+          ],
         },
       },
       {

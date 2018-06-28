@@ -15,24 +15,18 @@ const GLOBALS = {
 };
 
 module.exports = merge(config, {
-  devtool: 'source-map',
   entry: {
-    main: ['babel-polyfill', path.join(__dirname, '../src/index.jsx')],
+    main: ['@babel/polyfill', path.join(__dirname, '../src/index.jsx')],
   },
   plugins: [
     new CleanWebpackPlugin(['build/*'], { root: path.resolve(__dirname, '..') }),
-    new CopyWebpackPlugin([{
-      from: path.join(__dirname, '../src/public/images'),
-      to: 'images',
-    }]),
+    new CopyWebpackPlugin([{ from: path.join(__dirname, '../src/public/images'), to: 'images' }]),
     new MinifyPlugin({}, { sourceMap: null }),
     new webpack.NoEmitOnErrorsPlugin(),
     new webpack.DefinePlugin(GLOBALS),
-    new webpack.LoaderOptionsPlugin({
-      minimize: true,
-    }),
+    new webpack.LoaderOptionsPlugin({ minimize: true }),
   ],
   module: {
-    loaders: [],
+    rules: [],
   },
 });
